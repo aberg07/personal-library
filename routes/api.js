@@ -8,6 +8,25 @@
 
 'use strict';
 
+require('dotenv').config();
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI, {dbName: 'personal-library'})
+const bookSchema= new mongoose.Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  comments: {
+    type: Array,
+    required: true
+  },
+  commentcount: {
+    type: Number,
+    default: 0,
+    required: true
+  }
+}, {collection: 'books'})
+let book = mongoose.model('book', bookSchema)
 module.exports = function (app) {
 
   app.route('/api/books')
